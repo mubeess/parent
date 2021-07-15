@@ -1,0 +1,8 @@
+export const SET_LOADING='SET_LOADING';
+export const SET_ISLOGED='SET_ISLOGED';
+export const SET_USER='SET_USER';
+export const SET_RECIEPT='SET_RECIEPT';
+export const SET_STUDENT_RESULT='SET_STUDENT_RESULT';
+export const SET_ATTENDANCE='SET_ATTENDANCE';
+export const SET_DOSIER='SET_DOSIER';
+export const SET_EDIT='SET_EDIT';
