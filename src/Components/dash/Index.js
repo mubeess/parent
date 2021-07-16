@@ -40,6 +40,11 @@ import EditStaff from './Staff/EditStaff'
 import EditStudent from './Student/EditStudent'
 import AssessmentControl from './AssesmentControl/AssessmentControl'
 import { withRouter } from 'react-router-dom'
+import Assignment from '../Parents/Main/Assignment'
+import MyProfile from '../Parents/Prof/MyProfile'
+import Fees from '../Parents/Fees/Fees'
+import MySubject from '../Parents/Subject/MySubject'
+import MyResult from '../Parents/Results/MyResult'
 
 
 const StyledDraw=styled.div`
@@ -151,46 +156,18 @@ function Index(props) {
     }, [])
     const Dynamic=()=>{
         switch (props.match.url) {
-            case '/dash/main':
-                 return <MainApp></MainApp>
-           case '/dash/student':
-                    return <Student></Student>
             case '/dash/fees':
-                        return <FeesVarification></FeesVarification>
-            case '/dash/staff':
-                        return <Staff></Staff>
-            case '/dash/result':
-                        return <SelectSubject></SelectSubject>
+                        return <Fees></Fees>
             case '/dash/subject':
-                            return <Subject></Subject>
-            case '/dash/roles':
-                            return <Roles></Roles>
-            case '/dash/cognitive':
-                            return <Cognitive></Cognitive>
+                            return <MySubject></MySubject>
              case '/dash/assignment':
-                              return <Assignments></Assignments>
+                              return <Assignment></Assignment>
              case '/dash/profile':
-                                return <Profile></Profile>
-              case '/dash/reciept':
-                                  return <Reciept></Reciept>
-              case '/dash/attendance':
-                                    return <Attendance></Attendance>
-              case '/dash/enterresult':
-                                      return <FinalResult></FinalResult>
-              case '/dash/proceed':
-                                        return <Proceed></Proceed>
-              case '/dash/script':
-                                          return <StudentScript></StudentScript>
-               case '/dash/dosier':
-                                            return <Dosier></Dosier>
-                case '/dash/veiwresult':
-                                              return <ViewResult></ViewResult>
-                case '/dash/editstaff':
-                                                return <EditStaff></EditStaff>
-                 case '/dash/editstudent':
-                                                  return <EditStudent></EditStudent>
-                 case '/dash/assessment':
-                                                    return <AssessmentControl></AssessmentControl>
+                                return <MyProfile></MyProfile>
+            
+                case '/dash/result':
+                                              return <MyResult></MyResult>
+              
 
                                         
              
