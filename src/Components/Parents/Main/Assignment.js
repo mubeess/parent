@@ -1,8 +1,12 @@
+import React, { useContext, useEffect, useState } from 'react'
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import AppContext from '../../../Context/app/appContext'
+import download from 'js-file-download';
+import axios from 'axios'
 
 import { History, QuestionAnswerOutlined,CloudDownload } from '@material-ui/icons';
-import React from 'react'
+
 import styled from 'styled-components'
 
 const StyledMain=styled.div`
@@ -40,64 +44,77 @@ const StyledMain=styled.div`
 `;
 
 export default function Assignment() {
+  const appProps=useContext(AppContext)
+  const [allAss,setAll]=useState([])
+  useEffect(() => {
+  fetch(`https://polar-brook-59807.herokuapp.com/student/get-all-student-assignment/?currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+  .then(res=>{
+    res.json()
+    .then(data=>{
+      setAll(data.result)
+      console.log(appProps.user.user)
+    })
+  })
+  }, [])
     return (
         <StyledMain>
             <div className='topDisplay'>
             <QuestionAnswerOutlined style={{color:'white',marginTop:'10px',marginLeft:'20px'}}></QuestionAnswerOutlined>
             <Typography variant='button' style={{color:'white',marginTop:'10px'}}>My Assignments</Typography>
             </div>
-            <div className='assList'>
-            <QuestionAnswerOutlined style={{color:'black',marginLeft:'5px'}}></QuestionAnswerOutlined>
-            <Typography variant='button' style={{color:'black'}}>English Language</Typography>
-            <Typography variant='body1' style={{color:'black',marginLeft:'50px'}}>Title:JSS1</Typography>
-            <Typography variant='caption' style={{color:'black',marginLeft:'20px'}}>body:jkkjjhhhggguuuuhhgg</Typography>
-            <History style={{color:'black',marginLeft:'50px'}}></History>
-            <Typography variant='body1' style={{color:'black'}}>Posted On:12-12-09</Typography>
-            <Button
-        variant="contained"
-        style={{backgroundColor:'#1E7F95',marginLeft:'50px',color:'white'}}
-        startIcon={<CloudDownload/>}
-      >
-        Download
-      </Button>
 
-            </div>
-
-
-            <div className='assList'>
-            <QuestionAnswerOutlined style={{color:'black',marginLeft:'5px'}}></QuestionAnswerOutlined>
-            <Typography variant='button' style={{color:'black'}}>English Language</Typography>
-            <Typography variant='body1' style={{color:'black',marginLeft:'50px'}}>Title:JSS1</Typography>
-            <Typography variant='caption' style={{color:'black',marginLeft:'20px'}}>body:jkkjjhhhggguuuuhhgg</Typography>
-            <History style={{color:'black',marginLeft:'50px'}}></History>
-            <Typography variant='body1' style={{color:'black'}}>Posted On:12-12-09</Typography>
-            <Button
-        variant="contained"
-        style={{backgroundColor:'#1E7F95',marginLeft:'50px',color:'white'}}
-        startIcon={<CloudDownload/>}
-      >
-        Download
-      </Button>
-
-            </div>
+            {
+              allAss.length>0&&(
+                allAss.map((ass,ind)=>{
+                  const newPdf=ass.file.split('/').splice(1).join('/')
+                  const myPdf='http://srms-demoo.herokuapp.com/'+newPdf
+                  return(
+                    <div key={ind} className='assList'>
+                      {console.log(myPdf)}
+                  <QuestionAnswerOutlined style={{color:'black',marginLeft:'5px'}}></QuestionAnswerOutlined>
+                  <Typography  variant='button' style={{color:'black'}}>{ass.subject||'Mathematics'}</Typography>
+                  <Typography variant='body1' style={{color:'black',marginLeft:'50px'}}>Title:{ass.head}</Typography>
+                  <Typography variant='caption' style={{color:'black',marginLeft:'20px'}}>body:{ass.text}</Typography>
+                  <History style={{color:'black',marginLeft:'50px'}}></History>
+                  <Typography variant='body1' style={{color:'black'}}>Posted On:{ass.date||'none'}</Typography>
 
 
-            <div className='assList'>
-            <QuestionAnswerOutlined style={{color:'black',marginLeft:'5px'}}></QuestionAnswerOutlined>
-            <Typography variant='button' style={{color:'black'}}>English Language</Typography>
-            <Typography variant='body1' style={{color:'black',marginLeft:'50px'}}>Title:JSS1</Typography>
-            <Typography variant='caption' style={{color:'black',marginLeft:'20px'}}>body:jkkjjhhhggguuuuhhgg</Typography>
-            <History style={{color:'black',marginLeft:'50px'}}></History>
-            <Typography variant='body1' style={{color:'black'}}>Posted On:12-12-09</Typography>
-            <Button
-        variant="contained"
-        style={{backgroundColor:'#1E7F95',marginLeft:'50px',color:'white'}}
-        startIcon={<CloudDownload/>}
-      >
-        Download
-      </Button>
+                  {/* <a download target='_blank' href={myPdf}> */}
+                  <Button
+                  onClick={()=>{
+                    const fileName=`Assignment${ind+1}.pdf`
+                    axios.get(`https://polar-brook-59807.herokuapp.com/admin/download-pdf/?filePath=${myPdf}`)
+              //       .then(resp => {
+              //      console.log(resp)
+              //         download(resp.data, fileName);
+              //  })
+                  }}
+                  type='submit'
+              variant="contained"
+              style={{backgroundColor:'#1E7F95',marginLeft:'50px',color:'white'}}
+              startIcon={<CloudDownload/>}
+            >
+              Download
+            </Button>
+                  {/* </a> */}
+                    
+               
+                  
+                  
+      
+                  </div>
+                  )
+                })
+              )
+            }
+            
 
-            </div>
+       {
+         allAss.length==0&&(
+          <Typography variant='button'>No Assignment Yet!!!</Typography>
+         )
+       }
+
         </StyledMain>
     )
 }

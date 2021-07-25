@@ -181,7 +181,7 @@ export default function Login(props) {
     username,
     password
   }
-  fetch('https://polar-brook-59807.herokuapp.com/admin/login',{
+  fetch('https://polar-brook-59807.herokuapp.com/student/login',{
     method:'POST',
     headers:{
       "Content-Type":'application/json'
@@ -197,9 +197,8 @@ export default function Login(props) {
        
 
       appProps.setIslogged()
-      appProps.setUser({role:data.user.role,user:data.user})
-      const isAdmin=data.user.role.includes('Admin')
-      const urlToPush=isAdmin?'dash/fees':'dash/profile'
+      appProps.setUser({user:data.user})
+      const urlToPush='dash/assignment';
       setTimeout(() => {
         notification.open({
           message: 'Successfully Logged In',

@@ -1,6 +1,7 @@
 import { Button, Divider, FormControl, InputLabel, Select, Typography } from '@material-ui/core';
 import { ReceiptOutlined } from '@material-ui/icons';
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import AppContext from '../../../Context/app/appContext'
 import styled from 'styled-components'
 
 const StyledMain=styled.div`
@@ -42,6 +43,11 @@ const StyledMain=styled.div`
 `;
 
 export default function Fees() {
+  const appProps=useContext(AppContext)
+    
+    const [term,setTerm]=useState('none')
+    const [myFees,setMyFees]=useState([])
+    const [total,setTotal]=useState(0)
     return (
         <StyledMain>
             <div className='topDisplay'>
@@ -55,14 +61,14 @@ export default function Fees() {
         <Select
           disabled
           native
-          value='JSS1'
+          value={appProps.user.user.currentClass}
           label="Present Class"
           inputProps={{
             name:'gender',
             id: 'outlined-age-native-simple',
           }}
         >
-          <option value='JSS1'>JSS1</option>
+          <option value={appProps.user.user.currentClass}>{appProps.user.user.currentClass}</option>
         </Select>
       </FormControl>
 
@@ -71,8 +77,30 @@ export default function Fees() {
       <FormControl style={{width:'30%',marginLeft:'30px'}} variant="outlined">
         <InputLabel htmlFor="outlined-age-native-simple">Select Term</InputLabel>
         <Select
+          onChange={(e)=>{
+            setTerm(e.target.value)
+           if(e.target.value=='none') {
+          return null
+           }else{
+             fetch(`https://polar-brook-59807.herokuapp.com/student/get-single-student-payment/?term=${e.target.value}&username=${appProps.user.user.username}`)
+             .then(res=>{
+               res.json()
+               .then(data=>{
+               console.log(data)
+               if (data.result==null) {
+                 return setMyFees([])
+               }else{
+                setMyFees(data.result.pays)
+   const calculatedFees=data.result.pays[0].purposeOfPayment.reduce((a,{amountOfPayment})=>parseInt(a)+parseInt(amountOfPayment), 0)
+      setTotal(calculatedFees)
+               }
+               
+               })
+             })
+           }
+          }}
           native
-          value='1'
+          value={term}
           label="Select Term"
           inputProps={{
             name:'gender',
@@ -80,9 +108,9 @@ export default function Fees() {
           }}
         >
           <option value='none'>---None---</option>
-          <option value='First Term'>First Term</option>
-          <option value='Second Term'>Second Term</option>
-          <option value='Third Term'>Third Term</option>
+          <option value='1'>First Term</option>
+          <option value='2'>Second Term</option>
+          <option value='3'>Third Term</option>
         </Select>
       </FormControl>
 
@@ -90,21 +118,45 @@ export default function Fees() {
         <div className='recieptDetails'>
        <Typography style={{marginLeft:'10px'}} variant='h6'>Purpose Of Payment</Typography>
        <Typography variant='h6'>Amount</Typography>
-       <Typography style={{marginLeft:'10px'}} variant='body1'>Tuition</Typography>
+       {
+         myFees.length>0&&(
+           myFees[0].purposeOfPayment.map((pay,ind)=>(
+            <>
+          <Typography style={{marginLeft:'10px'}} variant='body1'>{pay.purposeOfPayment}</Typography>
+         <Typography variant='body1'>{pay.amountOfPayment}</Typography>
+           </>
+           ))
+         )
+       }
+       {
+         myFees.length==0&&(
+          <>
+          <Typography style={{marginLeft:'10px'}} variant='body1'>Not Paid!!</Typography>
+         <Typography variant='body1'>N0.00</Typography>
+         </>
+         )
+       }
+       {/* {
+         myFees.length>0?(<>
+          <Typography style={{marginLeft:'10px'}} variant='body1'>Tuition</Typography>
        <Typography variant='body1'>40000</Typography>
-       <Typography style={{marginLeft:'10px'}} variant='body1'>Tuition</Typography>
-       <Typography variant='body1'>40000</Typography>
-       <Typography style={{marginLeft:'10px'}} variant='body1'>Tuition</Typography>
-       <Typography variant='body1'>40000</Typography>
+         </>):(
+           <>
+        <Typography style={{marginLeft:'10px'}} variant='body1'>Not Paid!!</Typography>
+       <Typography variant='body1'>N0.00</Typography>
+           </>
+         )
+       } */}
+     
        <Typography style={{marginLeft:'10px'}} variant='h6'>Total</Typography>
-       <Typography variant='h6'>N50000</Typography>
+       <Typography variant='h6'>{myFees.length>0?total:'N0.00'}</Typography>
        <Divider style={{gridColumn:'1/3'}}></Divider>
        <Typography style={{marginLeft:'10px'}} variant='body1'>Teller No.</Typography>
-       <Typography variant='body1'>00980000</Typography>
+       <Typography variant='body1'>{myFees.length>0?myFees[0].teller:'Not Paid!!'}</Typography>
        <Typography style={{marginLeft:'10px'}} variant='body1'>Term</Typography>
-       <Typography variant='body1'>N50000</Typography>
+       <Typography variant='body1'>{term}</Typography>
        <Typography style={{marginLeft:'10px'}} variant='body1'>Payment Status</Typography>
-       <Typography variant='body1'>Paid</Typography>
+       <Typography variant='body1'>{myFees.length>0?'Paid':'Not Paid!!'}</Typography>
        
         </div>
         <Button style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Reciept</Button>

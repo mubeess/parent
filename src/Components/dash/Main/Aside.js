@@ -28,14 +28,7 @@ margin-bottom: 10px;
    useEffect(()=>{
   console.log(appProps)
    },[])
-   const arr=[]
-   const isTeacher=appProps.user.role.includes('subjectTeacher')
-   const isBursar=appProps.user.role.includes('Bursar')
-   const isPrincipal=appProps.user.role.includes('Principal')
-   const isFormMaster=appProps.user.role.includes('classTeacher')
-   const isAd=appProps.user.role.includes('Admin')
-   const isExamOfficer=appProps.user.role.includes('examOfficer')
-   const isSubAdmin=appProps.user.role.includes('subAdmin')
+  
 
   
    

@@ -166,7 +166,7 @@ function Index(props) {
                                 return <MyProfile></MyProfile>
             
                 case '/dash/result':
-                                              return <MyResult></MyResult>
+                                    return <MyResult></MyResult>
               
 
                                         

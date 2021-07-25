@@ -63,7 +63,7 @@ export default function MainProfile() {
  
     
     return (
-             <div ref={componentRef} id="container-fluid">
+             <div style={{marginTop:'30px'}} ref={componentRef} id="container-fluid">
         {/* <img className="profile-pic" src='https://polar-brook-59807.herokuapp.com/public/images/musty-avatar.jpg' /> */}
        <div className='profile-pic'>
        <Avatar style={{width:'100%',height:'100%'}} alt={appProps.user.user.firstName} src={imageUrl} />   
@@ -124,7 +124,7 @@ export default function MainProfile() {
             </tr>
             <tr>
                 <td>ROLE</td>
-                <td>{appProps.user.role.map(rl=>(`${rl+'**'}`))}</td>
+                {/* <td>{appProps.user.role.map(rl=>(`${rl+'**'}`))}</td> */}
             </tr>
          </table>
        
@@ -132,9 +132,9 @@ export default function MainProfile() {
         <div className="other-editable-info">
             <input className='profileInp' type="text" value={appProps.user.user.username ||'None Set'} disabled/>
             <input className='profileInp' type="text" value={`${appProps.user.user.firstName+' '+appProps.user.user.lastName  ||'None Set'}`} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.role.map(rl=>(`${rl+'**'}`))} disabled/>
+            {/* <input className='profileInp' type="text" value={appProps.user.role.map(rl=>(`${rl+'**'}`))} disabled/> */}
             <input className='profileInp' type="text" value={appProps.user.user.email || 'None set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.role.includes('Teacher')?'Academics':'Non Academics'} disabled/>
+            {/* <input className='profileInp' type="text" value={appProps.user.role.includes('Teacher')?'Academics':'Non Academics'} disabled/> */}
             <input className='profileInp' type="text" value={appProps.user.user.department || 'None Set'} disabled/>
             <input className='profileInp' type="text" value={appProps.user.user.phone || 'None Set'} disabled/>
             <input className='profileInp' type="text" value={appProps.user.user.address || 'None Set'} disabled/>

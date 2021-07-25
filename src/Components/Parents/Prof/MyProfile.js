@@ -1,42 +1,38 @@
+import { Typography } from '@material-ui/core';
+import { VerifiedUserRounded } from '@material-ui/icons';
 import React from 'react'
 import styled from 'styled-components'
+import MainProfile from '../../Profile/MainProfile';
 
 const StyledMain=styled.div`
        background:transparent;
         width:75%;
         height:95%;
-        margin-top:20px;
+        margin-top:10px;
         margin-left:auto;
         margin-right:auto;
         display: flex;
         flex-direction: column;
-        margin-left: 20%;
-        .icons{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-auto-rows: minmax(50px,auto);
-            grid-gap: 20px;
-            
-
+        margin-left: 21%;
+        .topDisplay{
+        height:50px;
+        background-color: #1E7F95;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
         }
-        .charts{
-            display: grid;
-            grid-template-columns: 1fr;
-        }
-        .loader{
-            width: '100%';
-            min-height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        
 
 `;
 
 export default function MyProfile() {
     return (
         <StyledMain>
-            <h1>Profile</h1>
+             <div className='topDisplay'>
+             <VerifiedUserRounded style={{color:'white',marginTop:'10px',marginLeft:'10px'}} />
+            <Typography variant='button' style={{color:'white',marginTop:'10px'}}>My Profile</Typography>
+            </div>
+           <MainProfile/>
         </StyledMain>
     )
 }

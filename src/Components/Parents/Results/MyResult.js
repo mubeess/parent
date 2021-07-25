@@ -1,9 +1,48 @@
 import { AssessmentOutlined } from '@material-ui/icons';
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Divider, FormControl, InputLabel, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import gray from '@material-ui/core/colors/grey'
+import AppContext from '../../../Context/app/appContext'
+
+
+
+const grader = (grade) => {
+
+  switch (grade) {
+      case 'A1':
+          return "Excellent" 
+
+      case 'B2':
+          return "Very Good"
+          
+      case 'B3':
+          return "Good" 
+
+      case 'C4':
+          return "Credit"
+     case 'C4':
+              return "Credit"
+
+     case 'C4':
+                  return "Credit"
+  
+   case 'D7':
+               return "Pass"
+
+   case 'E8':
+                  return "Pass"
+  
+
+      case 'F':
+          return "Fail"
+  
+      default:
+          return "Fail"
+      
+  }
+}
 
 const StyledMain=styled.div`
        background:transparent;
@@ -98,7 +137,11 @@ const StyledTableCell = withStyles((theme) => ({
     },
   }))(TableRow);
 export default function MyResult() {
+   const appProps=useContext(AppContext)
     const classes = useStyles();
+    const [term,setTerm]=useState('none')
+    const [myResult,setMyResult]=useState([])
+    
     return (
         <StyledMain>
              <div className='topDisplay'>
@@ -113,14 +156,14 @@ export default function MyResult() {
         <Select
           disabled
           native
-          value='JSS1'
+          value={appProps.user.user.currentClass}
           label="Present Class"
           inputProps={{
             name:'gender',
             id: 'outlined-age-native-simple',
           }}
         >
-          <option value='JSS1'>JSS1</option>
+          <option value={appProps.user.user.currentClass}>{appProps.user.user.currentClass}</option>
         </Select>
       </FormControl>
 
@@ -129,8 +172,28 @@ export default function MyResult() {
       <FormControl style={{width:'30%',marginLeft:'30px'}} variant="outlined">
         <InputLabel htmlFor="outlined-age-native-simple">Select Term</InputLabel>
         <Select
+         onChange={(e)=>{
+           setTerm(e.target.value)
+          if(e.target.value=='none') {
+         return null
+          }else{
+            fetch(`https://polar-brook-59807.herokuapp.com/admin/get-single-student-result/?term=${e.target.value}&username=${appProps.user.user.username}&currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+            .then(res=>{
+              res.json()
+              .then(data=>{
+                if (data.message.includes(null)) {
+                  return setMyResult([])
+                }else{
+                  setMyResult(data.message)
+                  console.log(data)
+                }
+                
+              })
+            })
+          }
+         }}
           native
-          value='1'
+          value={term}
           label="Select Term"
           inputProps={{
             name:'gender',
@@ -138,9 +201,9 @@ export default function MyResult() {
           }}
         >
           <option value='none'>---None---</option>
-          <option value='First Term'>First Term</option>
-          <option value='Second Term'>Second Term</option>
-          <option value='Third Term'>Third Term</option>
+          <option value='1'>First Term</option>
+          <option value='2'>Second Term</option>
+          <option value='3'>Third Term</option>
         </Select>
       </FormControl>
       </div>
@@ -163,65 +226,48 @@ export default function MyResult() {
           </TableRow>
         </TableHead>
         <TableBody>
-        <StyledTableRow>
+          {
+            myResult.length>0&&(
+              myResult[1].map((res,ind)=>(
+                <StyledTableRow>
                 <StyledTableCell component="th" scope="row">
-                  English Language
+                  {res.subject}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  10
+                  {res.ca1||'0'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  10
+                {res.ca2||'0'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  10
+                {res.ca3||'0'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  10
+                {res.ca4||'0'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                 60
+                {res.exam||'0'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  100
+                {res.total}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                A
+                {res.grade||'F'}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                Excellent
+                {grader(res.grade)||'Fail'}
                 </StyledTableCell>
             </StyledTableRow>
 
-            <StyledTableRow>
-                <StyledTableCell component="th" scope="row">
-                  English Language
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  10
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  10
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  10
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  10
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                 60
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  100
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                A
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                Excellent
-                </StyledTableCell>
-            </StyledTableRow>
+              ))
+            )
+          }
+        {
+          myResult.length==0&&(
+            <Typography variant='button'>No Result Yet!!!</Typography>
+          )
+        }
+            
         </TableBody>
         </Table>
         </TableContainer>
@@ -230,26 +276,26 @@ export default function MyResult() {
             <Typography variant='button'>CURRENT</Typography>
             <div className='subDetails'>
        <Typography style={{marginLeft:'10px'}} variant='body1'>Total:</Typography>
-       <Typography variant='body1'>4000</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[0].total:'0'}</Typography>
 
 
        <Typography style={{marginLeft:'10px'}} variant='body1'>Average:</Typography>
-       <Typography variant='body1'>90</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[0].average.toPrecision(5):'0'}</Typography>
 
 
        <Typography style={{marginLeft:'10px'}} variant='body1'>Position:</Typography>
-       <Typography variant='body1'>1</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[0].position:'Not Specified'}</Typography>
             </div>
             </div>
             <div className='classDesc'>
             <Typography variant='button'>Class Description</Typography>
             <div className='subDetails'>
        <Typography style={{marginLeft:'10px'}} variant='body1'>TOTAL NO. OF STUDENTS:</Typography>
-       <Typography variant='body1'>40</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[3]:'0'}</Typography>
 
 
        <Typography style={{marginLeft:'10px'}} variant='body1'>TOTAL NO. OF SUBJECTS:</Typography>
-       <Typography variant='body1'>9</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[0].noOfCourse:'0'}</Typography>
 
 
     
@@ -257,7 +303,7 @@ export default function MyResult() {
             </div>
         </div>
         <div className='principalRem'>
-        <Typography style={{marginTop:'20px'}} variant='button'>PRINCIPAL REMARK:Dolo</Typography> 
+        <Typography style={{marginTop:'20px'}} variant='button'>PRINCIPAL REMARK:{myResult.length>0?myResult[2].remarks:''}</Typography> 
         </div>
       </div>
 

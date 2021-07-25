@@ -2,7 +2,8 @@ import { Button, Divider, FormControl, InputLabel, Paper, Select, Table, TableBo
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import gray from '@material-ui/core/colors/grey'
 import { Book } from '@material-ui/icons';
-import React from 'react'
+import React,{useEffect,useContext,useState} from 'react'
+import AppContext from '../../../Context/app/appContext'
 import styled from 'styled-components'
 
 const StyledMain=styled.div`
@@ -57,6 +58,21 @@ const StyledTableCell = withStyles((theme) => ({
   }))(TableRow);
 
 export default function MySubject() {
+  const [allSub,setAll]=useState([])
+  const appProps=useContext(AppContext)
+  useEffect(() => {
+    fetch(`https://polar-brook-59807.herokuapp.com/admin/get-class-curriculum/?currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+    .then(res=>{
+      res.json()
+      .then(data=>{
+        if (data.result!=null) {
+          setAll(data.result.subject)
+        }
+        
+       
+      })
+    })
+    }, [])
     const classes = useStyles();
     return (
         <StyledMain>
@@ -69,21 +85,39 @@ export default function MySubject() {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow style={{backgroundColor:gray[500]}} >
+            <StyledTableCell>S/N</StyledTableCell>
             <StyledTableCell>Subjects</StyledTableCell>
             <StyledTableCell>Class</StyledTableCell>
            
           </TableRow>
         </TableHead>
         <TableBody>
-        <StyledTableRow>
+          {
+            allSub.length>0&&(
+              allSub.map((sub,ind)=>(
+                <StyledTableRow key={ind}>
+          <StyledTableCell component="th" scope="row">
+                  {ind+1}
+                </StyledTableCell>
+
                 <StyledTableCell component="th" scope="row">
-                  English Language
+                  {sub}
                 </StyledTableCell>
                
                 <StyledTableCell component="th" scope="row">
-                JSS1
+                {appProps.user.user.currentClass}
                 </StyledTableCell>
             </StyledTableRow>
+              ))
+            )
+          }
+
+          {
+            allSub.length==0&&(
+              <Typography>There's no subject allocated!!</Typography>
+            )
+          }
+       
 
             
          
