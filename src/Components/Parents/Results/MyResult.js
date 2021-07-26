@@ -1,10 +1,11 @@
 import { AssessmentOutlined } from '@material-ui/icons';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Divider, FormControl, InputLabel, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import gray from '@material-ui/core/colors/grey'
 import AppContext from '../../../Context/app/appContext'
+import {useReactToPrint} from 'react-to-print'
 
 
 
@@ -137,10 +138,17 @@ const StyledTableCell = withStyles((theme) => ({
     },
   }))(TableRow);
 export default function MyResult() {
+  const componentRef=useRef()
    const appProps=useContext(AppContext)
     const classes = useStyles();
     const [term,setTerm]=useState('none')
     const [myResult,setMyResult]=useState([])
+
+    const handlePrint=useReactToPrint({
+      content:()=>componentRef.current,
+      copyStyles:true
+  
+  })
     
     return (
         <StyledMain>
@@ -209,7 +217,7 @@ export default function MyResult() {
       </div>
       <Divider style={{marginTop:'10px'}}></Divider>
 
-      <div className='mainResult'>
+      <div ref={componentRef} className='mainResult'>
       <TableContainer  style={{marginTop:'20px',width:800}} component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -307,7 +315,7 @@ export default function MyResult() {
         </div>
       </div>
 
-      <Button style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Result</Button>
+      <Button onClick={handlePrint} style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Result</Button>
         </StyledMain>
     )
 }

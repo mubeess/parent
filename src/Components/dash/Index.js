@@ -2,16 +2,9 @@ import React,{useEffect,useContext,useState} from 'react'
 import Nav from './Header/Nav'
 import styled from 'styled-components'
 import Aside from './Main/Aside'
-import MainApp from './Main/MainApp'
-import Student from './Student/Student'
-import FeesVarification from './Student/FeeVarification'
-import Staff from './Staff/Staff'
-import Result from './Staff/Result'
-import Subject from './Subject/Index'
+
 import AppContext from '../../Context/app/appContext'
-import App from '../../App'
-import Roles from './Staff/Roles'
-import Classes from './Staff/Classes'
+
 import { Drawer, Radio, Space } from 'antd';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,20 +18,7 @@ import Typography from '@material-ui/core/Typography'
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {EditRounded,DeleteForeverRounded,ViewArrayRounded,CloseOutlined} from '@material-ui/icons'
-import Cognitive from './cognitive/Cognitive'
-import Assignments from './Assignment/Assignment'
-import Profile from './Profile/Profile'
-import Reciept from '../Dosier/Reciept'
-import Attendance from '../Dosier/Attendance'
-import SelectSubject from './Staff/SelectSubject'
-import FinalResult from './Staff/FinalResult'
-import Proceed from '../Proceed/Proceed'
-import StudentScript from '../Dosier/StudentScript'
-import Dosier from '../Dosier/Dosier'
-import ViewResult from './ViewResult/ViewResult'
-import EditStaff from './Staff/EditStaff'
-import EditStudent from './Student/EditStudent'
-import AssessmentControl from './AssesmentControl/AssessmentControl'
+
 import { withRouter } from 'react-router-dom'
 import Assignment from '../Parents/Main/Assignment'
 import MyProfile from '../Parents/Prof/MyProfile'
@@ -141,19 +121,19 @@ function Index(props) {
     setVisible(true)
 }
 
-    useEffect(() => {
-      // if (appProps.user.user.firstName==undefined) {
-      //   props.history.push('/')
-      // }
-        fetch('https://polar-brook-59807.herokuapp.com/admin/get-every-class')
-        .then(res=>{
-          res.json()
-          .then(data=>{
-            setAllClassess(data.message)
-          })
-        })
+    // useEffect(() => {
+    //   // if (appProps.user.user.firstName==undefined) {
+    //   //   props.history.push('/')
+    //   // }
+    //     fetch('https://polar-brook-59807.herokuapp.com/admin/get-every-class')
+    //     .then(res=>{
+    //       res.json()
+    //       .then(data=>{
+    //         setAllClassess(data.message)
+    //       })
+    //     })
     
-    }, [])
+    // }, [])
     const Dynamic=()=>{
         switch (props.match.url) {
             case '/dash/fees':
@@ -191,7 +171,30 @@ function Index(props) {
             <StyledMain>
                 <Aside open={open}></Aside>
                 <Dynamic></Dynamic>
-          <Drawer
+          
+       
+            </StyledMain>
+            </>
+        
+
+    </div>
+  );
+}
+
+export default withRouter(Index) ;
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <Drawer
           title="Manage Classes"
           placement='top'
           closable={false}
@@ -353,25 +356,7 @@ function Index(props) {
 </div>
         
      </StyledDraw>
-        </Drawer>
-       
-            </StyledMain>
-            </>
-        
-
-    </div>
-  );
-}
-
-export default withRouter(Index) ;
-
-
-
-
-
-
-
-
+        </Drawer> */}
 
 
 

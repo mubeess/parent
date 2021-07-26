@@ -1,7 +1,8 @@
 import { Button, Divider, FormControl, InputLabel, Select, Typography } from '@material-ui/core';
 import { ReceiptOutlined } from '@material-ui/icons';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useRef } from 'react'
 import AppContext from '../../../Context/app/appContext'
+import {useReactToPrint} from 'react-to-print'
 import styled from 'styled-components'
 
 const StyledMain=styled.div`
@@ -44,10 +45,16 @@ const StyledMain=styled.div`
 
 export default function Fees() {
   const appProps=useContext(AppContext)
-    
+  const componentRef=useRef()
     const [term,setTerm]=useState('none')
     const [myFees,setMyFees]=useState([])
     const [total,setTotal]=useState(0)
+
+    const handlePrint=useReactToPrint({
+      content:()=>componentRef.current,
+      copyStyles:true
+  
+  })
     return (
         <StyledMain>
             <div className='topDisplay'>
@@ -115,7 +122,7 @@ export default function Fees() {
       </FormControl>
 
             </div>
-        <div className='recieptDetails'>
+        <div ref={componentRef} className='recieptDetails'>
        <Typography style={{marginLeft:'10px'}} variant='h6'>Purpose Of Payment</Typography>
        <Typography variant='h6'>Amount</Typography>
        {
@@ -136,17 +143,7 @@ export default function Fees() {
          </>
          )
        }
-       {/* {
-         myFees.length>0?(<>
-          <Typography style={{marginLeft:'10px'}} variant='body1'>Tuition</Typography>
-       <Typography variant='body1'>40000</Typography>
-         </>):(
-           <>
-        <Typography style={{marginLeft:'10px'}} variant='body1'>Not Paid!!</Typography>
-       <Typography variant='body1'>N0.00</Typography>
-           </>
-         )
-       } */}
+      
      
        <Typography style={{marginLeft:'10px'}} variant='h6'>Total</Typography>
        <Typography variant='h6'>{myFees.length>0?total:'N0.00'}</Typography>
@@ -159,7 +156,7 @@ export default function Fees() {
        <Typography variant='body1'>{myFees.length>0?'Paid':'Not Paid!!'}</Typography>
        
         </div>
-        <Button style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Reciept</Button>
+        <Button onClick={handlePrint} style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Reciept</Button>
         </StyledMain>
     )
 }

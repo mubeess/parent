@@ -72,12 +72,12 @@ export default function MainProfile() {
             <div className="btn-container">
             <Upload 
 
-            beforeUpload={(file)=>{
+       beforeUpload={(file)=>{
                 const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');}
             }}
-    action={`https://polar-brook-59807.herokuapp.com/admin/set-profile-pic/?id=${appProps.user.user._id}`}
+    action={`https://polar-brook-59807.herokuapp.com/student/set-profile-pic/?id=${appProps.user.user._id}`}
     name='profile_pic'
     method='PUT'
    
@@ -93,7 +93,7 @@ export default function MainProfile() {
         const myRealImage=myImage.splice(1,2).join('/')
        const  newAppImage=`https://polar-brook-59807.herokuapp.com/${myRealImage}`;
         setImageUrl(newAppImage)
-        console.log(newAppImage)
+        console.log(newAppImage,',,,,,,,,,,,,',info.file.response)
         // setId(idd)
         
       } else if (info.file.status === 'error') {
@@ -119,12 +119,14 @@ export default function MainProfile() {
                 <td>{`${appProps.user.user.firstName+' '+appProps.user.user.lastName ||'None Set'}`}</td>
             </tr>
             <tr>
-                <td>EMAIL</td>
-                <td>{appProps.user.user.email || 'None set'}</td>
+                <td>STATE</td>
+                <td>{appProps.user.user.state || 'None set'}</td>
             </tr>
             <tr>
                 <td>ROLE</td>
-                {/* <td>{appProps.user.role.map(rl=>(`${rl+'**'}`))}</td> */}
+                <td onClick={()=>{
+                  console.log(appProps.user.user)
+                }}>Student</td>
             </tr>
          </table>
        
@@ -133,10 +135,10 @@ export default function MainProfile() {
             <input className='profileInp' type="text" value={appProps.user.user.username ||'None Set'} disabled/>
             <input className='profileInp' type="text" value={`${appProps.user.user.firstName+' '+appProps.user.user.lastName  ||'None Set'}`} disabled/>
             {/* <input className='profileInp' type="text" value={appProps.user.role.map(rl=>(`${rl+'**'}`))} disabled/> */}
-            <input className='profileInp' type="text" value={appProps.user.user.email || 'None set'} disabled/>
+            <input className='profileInp' type="text" value={appProps.user.user.state || 'None set'} disabled/>
             {/* <input className='profileInp' type="text" value={appProps.user.role.includes('Teacher')?'Academics':'Non Academics'} disabled/> */}
-            <input className='profileInp' type="text" value={appProps.user.user.department || 'None Set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.user.phone || 'None Set'} disabled/>
+            <input className='profileInp' type="text" value={appProps.user.user.currentClass || 'None Set'} disabled/>
+            <input className='profileInp' type="text" value={appProps.user.user.gender || 'None Set'} disabled/>
             <input className='profileInp' type="text" value={appProps.user.user.address || 'None Set'} disabled/>
             <input className='profileInp' type="text" value={appProps.user.user.country.toUpperCase() || 'None set'} disabled/>
             <input className='profileInp' type="text" value={appProps.user.user.state||'State Not Set'} disabled/>
@@ -169,7 +171,7 @@ export default function MainProfile() {
           
 
          <Button onClick={()=>{
-             const urlToPush=appProps.user.role.includes('Admin')?'admin':'staff';
+            
              const myObj={
                  oldPassword,
                  newPassword
@@ -182,7 +184,7 @@ export default function MainProfile() {
                  setTimeout(() => {
                     
                  }, 3000);
-                fetch(`https://polar-brook-59807.herokuapp.com/${urlToPush}/change-password/${appProps.user.user._id}`,{
+                fetch(`https://polar-brook-59807.herokuapp.com/student/change-password/${appProps.user.user._id}`,{
                     method:'POST',
                     headers:{
                       "Content-Type":'application/json'
