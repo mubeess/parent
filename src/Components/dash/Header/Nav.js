@@ -70,7 +70,7 @@ const theme = createMuiTheme({
                color:'black',
                marginLeft:'auto',
                marginTop:'25px',
-             }} variant="caption" align='center' gutterBottom>{`${appProps.user.user.firstName+" "+appProps.user.user.lastName}`}</Typography>
+             }} variant="caption" align='center' gutterBottom>{`${JSON.parse(localStorage.getItem('user')).user.firstName+" "+JSON.parse(localStorage.getItem('user')).user.lastName}`}</Typography>
         <Avatar
     onClick={handleClick}
      aria-controls="simple-menu" aria-haspopup="true"  style={{
@@ -78,7 +78,7 @@ const theme = createMuiTheme({
     marginLeft:'20px',
     cursor:'pointer',
     marginRight:'50px'
-}}>{appProps.user.user.firstName.split('')[0]}</Avatar>
+}}>{JSON.parse(localStorage.getItem('user')).user.firstName.split('')[0]}</Avatar>
 <Menu
         id="simple-menu"
         anchorEl={anchorEl}

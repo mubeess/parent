@@ -111,7 +111,7 @@ export default function MainProfile() {
           
          <table className="profile-detail">
              <tr>
-                 <td>STAFF ID:</td>
+                 <td>STUDENT ID:</td>
                  <td>{appProps.user.user.username ||'None Set'}</td>
              </tr>
              <tr>
@@ -124,16 +124,14 @@ export default function MainProfile() {
             </tr>
             <tr>
                 <td>ROLE</td>
-                <td onClick={()=>{
-                  console.log(appProps.user.user)
-                }}>Student</td>
+                <td>Student</td>
             </tr>
          </table>
        
         </div>
         <div className="other-editable-info">
             <input className='profileInp' type="text" value={appProps.user.user.username ||'None Set'} disabled/>
-            <input className='profileInp' type="text" value={`${appProps.user.user.firstName+' '+appProps.user.user.lastName  ||'None Set'}`} disabled/>
+            <input className='profileInp' type="text" value={`${appProps.user.user.firstName||''+' '+appProps.user.user.lastName  ||'None Set'}`} disabled/>
             {/* <input className='profileInp' type="text" value={appProps.user.role.map(rl=>(`${rl+'**'}`))} disabled/> */}
             <input className='profileInp' type="text" value={appProps.user.user.state || 'None set'} disabled/>
             {/* <input className='profileInp' type="text" value={appProps.user.role.includes('Teacher')?'Academics':'Non Academics'} disabled/> */}

@@ -8,7 +8,6 @@ import AppContext from '../../Context/app/appContext'
 import { Drawer, Radio, Space } from 'antd';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
-
 import {EditRounded,DeleteForeverRounded,ViewArrayRounded,CloseOutlined} from '@material-ui/icons'
 
 import { withRouter } from 'react-router-dom'
@@ -113,17 +112,40 @@ function Index(props) {
     setVisible(true)
 }
 
+const alertUser = (e) => {
+    e.preventDefault();
+   e.returnValue = "";
+   appProps.setUser({user:appProps.user.user})
+};
+
     // useEffect(() => {
-    //   // if (appProps.user.user.firstName==undefined) {
-    //   //   props.history.push('/')
-    //   // }
-    //     fetch('https://polar-brook-59807.herokuapp.com/admin/get-every-class')
-    //     .then(res=>{
-    //       res.json()
-    //       .then(data=>{
-    //         setAllClassess(data.message)
-    //       })
-    //     })
+    
+    //   const user= JSON.parse(localStorage.getItem('user'))
+    //   appProps.setUser({user:user.user})
+
+    //   window.onbeforeunload = function() {
+    //     return true;
+    // };
+
+    // return () => {
+    //     window.onbeforeunload = null;
+    // };
+
+      // window.addEventListener("beforeunload", alertUser);
+      // return () => {
+      //   window.removeEventListener("beforeunload", alertUser);
+      // };
+  
+      // if (appProps.user.user.firstName==undefined) {
+      //   props.history.push('/')
+      // }
+        // fetch('https://polar-brook-59807.herokuapp.com/admin/get-every-class')
+        // .then(res=>{
+        //   res.json()
+        //   .then(data=>{
+        //     setAllClassess(data.message)
+        //   })
+        // })
     
     // }, [])
     const Dynamic=()=>{
@@ -173,7 +195,7 @@ function Index(props) {
   );
 }
 
-export default withRouter(Index) ;
+export default withRouter(Index);
 
 
 

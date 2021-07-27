@@ -47,7 +47,7 @@ export default function Assignment() {
   const appProps=useContext(AppContext)
   const [allAss,setAll]=useState([])
   useEffect(() => {
-  fetch(`https://polar-brook-59807.herokuapp.com/student/get-all-student-assignment/?currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+  fetch(`https://polar-brook-59807.herokuapp.com/student/get-all-student-assignment/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
   .then(res=>{
     res.json()
     .then(data=>{
@@ -82,12 +82,12 @@ export default function Assignment() {
                   {/* <a download target='_blank' href={myPdf}> */}
                   <Button
                   onClick={()=>{
-                    const fileName=`Assignment${ind+1}.pdf`
+                    const fileName=`Assignment${ind+1}`
                     axios.get(`https://polar-brook-59807.herokuapp.com/admin/download-pdf/?filePath=${myPdf}`)
-              //       .then(resp => {
-              //      console.log(resp)
-              //         download(resp.data, fileName);
-              //  })
+                    .then(resp => {
+                   console.log(resp)
+                      download(resp.data, fileName);
+               })
                   }}
                   type='submit'
               variant="contained"
@@ -111,7 +111,10 @@ export default function Assignment() {
 
        {
          allAss.length==0&&(
-          <Typography variant='button'>No Assignment Yet!!!</Typography>
+          <Typography onClick={()=>{
+            const me= JSON.parse(localStorage.getItem('user'))
+            console.log(me)
+          }} variant='button'>No Assignment Yet!!!</Typography>
          )
        }
 

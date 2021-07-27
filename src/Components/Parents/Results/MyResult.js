@@ -23,10 +23,10 @@ const grader = (grade) => {
 
       case 'C4':
           return "Credit"
-     case 'C4':
+     case 'C5':
               return "Credit"
 
-     case 'C4':
+     case 'C6':
                   return "Credit"
   
    case 'D7':

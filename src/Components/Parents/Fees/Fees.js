@@ -97,9 +97,14 @@ export default function Fees() {
                if (data.result==null) {
                  return setMyFees([])
                }else{
-                setMyFees(data.result.pays)
-   const calculatedFees=data.result.pays[0].purposeOfPayment.reduce((a,{amountOfPayment})=>parseInt(a)+parseInt(amountOfPayment), 0)
-      setTotal(calculatedFees)
+                 console.log(data)
+                 if (data.result.paid) {
+                  const calculatedFees=data.result.pays[0].purposeOfPayment.reduce((a,{amountOfPayment})=>parseInt(a)+parseInt(amountOfPayment), 0)
+                  setTotal(calculatedFees)
+                 }
+                 setMyFees(data.result.pays)
+   
+      
                }
                
                })

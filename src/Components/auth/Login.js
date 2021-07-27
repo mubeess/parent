@@ -197,6 +197,7 @@ export default function Login(props) {
        
 
       appProps.setIslogged()
+      localStorage.setItem('user', JSON.stringify({user:data.user}))
       appProps.setUser({user:data.user})
       const urlToPush='dash/assignment';
       setTimeout(() => {
