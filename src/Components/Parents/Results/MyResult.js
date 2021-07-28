@@ -304,7 +304,7 @@ export default function MyResult() {
 
        <Typography style={{marginLeft:'10px'}} variant='body1'>TOTAL NO. OF SUBJECTS:</Typography>
        <Typography variant='body1'>{myResult.length>0?myResult[0].noOfCourse:'0'}</Typography>
-
+    
 
     
             </div>

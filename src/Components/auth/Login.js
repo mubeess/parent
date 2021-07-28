@@ -193,9 +193,18 @@ export default function Login(props) {
       console.log(data)
       
       if (data.success) { 
-        setIsSuccess(true)
-       
-
+        
+       if (data.user.suspend==true) {
+     return   notification.open({
+          message: 'Account Suspended!!!',
+          description:'Contact The School Admin',
+          onClick: () => {
+            notification.close()
+          },
+          type:'error'
+        }),handleClose()
+       }
+       setIsSuccess(true)
       appProps.setIslogged()
       localStorage.setItem('user', JSON.stringify({user:data.user}))
       appProps.setUser({user:data.user})
