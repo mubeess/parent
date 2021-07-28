@@ -291,8 +291,8 @@ export default function MyResult() {
        <Typography variant='body1'>{myResult.length>0?myResult[0].average.toPrecision(5):'0'}</Typography>
 
 
-       <Typography style={{marginLeft:'10px'}} variant='body1'>Position:</Typography>
-       <Typography variant='body1'>{myResult.length>0?myResult[0].position:'Not Specified'}</Typography>
+       <Typography style={{marginLeft:'10px'}} variant='body1'>Session:</Typography>
+       <Typography variant='body1'>{myResult.length>0?myResult[0].session:'None'}</Typography>
             </div>
             </div>
             <div className='classDesc'>
@@ -302,7 +302,9 @@ export default function MyResult() {
        <Typography variant='body1'>{myResult.length>0?myResult[3]:'0'}</Typography>
 
 
-       <Typography style={{marginLeft:'10px'}} variant='body1'>TOTAL NO. OF SUBJECTS:</Typography>
+       <Typography onClick={()=>{
+         console.log(myResult)
+       }} style={{marginLeft:'10px'}} variant='body1'>TOTAL NO. OF SUBJECTS:</Typography>
        <Typography variant='body1'>{myResult.length>0?myResult[0].noOfCourse:'0'}</Typography>
     
 

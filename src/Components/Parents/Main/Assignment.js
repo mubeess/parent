@@ -79,24 +79,17 @@ export default function Assignment() {
                   <Typography variant='body1' style={{color:'black'}}>Posted On:{ass.date||'none'}</Typography>
 
 
-                  {/* <a download target='_blank' href={myPdf}> */}
+                  <a download={`Assignment${ind+1}`}  href={ass.file}>
                   <Button
-                  onClick={()=>{
-                    const fileName=`Assignment${ind+1}`
-                    axios.get(`https://polar-brook-59807.herokuapp.com/admin/download-pdf/?filePath=${myPdf}`)
-                    .then(resp => {
-                   console.log(resp)
-                      download(resp.data, fileName);
-               })
-                  }}
-                  type='submit'
+          
+               type='submit'
               variant="contained"
               style={{backgroundColor:'#1E7F95',marginLeft:'50px',color:'white'}}
               startIcon={<CloudDownload/>}
             >
               Download
             </Button>
-                  {/* </a> */}
+                  </a>
                     
                
                   
