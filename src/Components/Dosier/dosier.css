@@ -1,0 +1,128 @@
+#container{
+    display: flex;
+    margin: 20px auto;
+    width: 850px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    height: 98%;
+    flex-direction: column;
+    
+    
+  
+}
+.header{
+    display: inline-block;
+}
+img{
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0px;
+}
+.cover-img{
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    vertical-align: middle;
+    /* align-content: center; */
+    margin-left: 200px;
+    opacity: 0.1;
+}
+.school-name{
+    font-size: 30px;
+    font-weight: bolder;
+}
+.information-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.table11{
+    width: 100%;
+    margin-top: 30px;
+    /* border: 1px solid #ddd; */
+    border-collapse: collapse;
+}
+.table2{
+    width: 60%;
+    margin-bottom: 10px;
+    /* margin-top: 30px; */
+    /* border: 1px solid #ddd; */
+    border-collapse: collapse;
+}
+.table3-container, .table2-container{
+    margin-top: 20px;
+    
+}
+.table3{
+    width: 90%;
+    margin-top: 0px;
+    /* border: 1px solid #ddd; */
+    border-collapse: collapse;
+}
+tr{
+    /* border: 1px solid black; */
+    /* border-collapse: collapse; */
+    /* border: 1px solid #ddd; */
+}
+.table11 th,#container tr,#container td{
+    border: 1px solid black;
+    padding: 4px;
+    text-align: left;
+}
+.subject{
+    text-align: left;
+}
+.grade-cognitive-section{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid: gap -20px;
+}
+.promotion-status{
+    font-weight: bolder;
+    color: green;
+    margin-left: 1rem;
+}
+.content-title-post{
+   /* font-weight: bolder; */
+  
+}
+/* attendance sheet other css */
+.teacher-sign{
+    border-top: 2px solid black;
+    padding: 10px;
+    margin-top: 30px;
+}
+.teacher-sign-container{
+    margin-top: 80px;
+}
+/* receipt css */
+.table-fees{
+    
+        width: 100%;
+        margin-top: 30px;
+        /* border: 1px solid #ddd; */
+        /* position: relative; */
+        border-collapse: collapse;
+        background-attachment: no-repeat;
+        background-repeat: no-repeat;
+        /* background-image: url('logo1.png'); */
+        background-size: contain;
+        text-align: center;
+  
+      
+
+}
+.bursar-sign-container{
+    margin-top: 200px;
+
+}
+.bursar-sign{
+    font-weight: bolder;
+    padding-top: 10px;
+    border-top: 2px solid black;
+
+}
+
+.pr-remarks {
+    min-width: 39.5rem;
+}

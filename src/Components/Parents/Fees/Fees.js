@@ -1,9 +1,11 @@
 import { Button, Divider, FormControl, InputLabel, Select, Typography } from '@material-ui/core';
 import { ReceiptOutlined } from '@material-ui/icons';
-import React, { useContext, useState,useRef } from 'react'
+import React, { useContext, useState,useRef, useEffect } from 'react'
 import AppContext from '../../../Context/app/appContext'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {useReactToPrint} from 'react-to-print'
 import styled from 'styled-components'
+import Logo from './logo1.png'
 
 const StyledMain=styled.div`
        background:transparent;
@@ -49,6 +51,18 @@ export default function Fees() {
     const [term,setTerm]=useState('none')
     const [myFees,setMyFees]=useState([])
     const [total,setTotal]=useState(0)
+    const [currentSession,setCurrent]=useState('')
+    const [loading,setLoadig]=useState(false)
+    useEffect(()=>{
+      fetch('https://polar-brook-59807.herokuapp.com/admin/get-current-term').
+      then(res=>{
+        res.json()
+        .then(data=>{
+       setCurrent(data.result[0].session.year)
+          
+        })
+      })
+    },[])
 
     const handlePrint=useReactToPrint({
       content:()=>componentRef.current,
@@ -89,10 +103,12 @@ export default function Fees() {
            if(e.target.value=='none') {
           return null
            }else{
+            setLoadig(true)
              fetch(`https://polar-brook-59807.herokuapp.com/student/get-single-student-payment/?term=${e.target.value}&username=${appProps.user.user.username}`)
              .then(res=>{
                res.json()
                .then(data=>{
+                 setLoadig(false)
                console.log(data)
                if (data.result==null) {
                  return setMyFees([])
@@ -127,7 +143,7 @@ export default function Fees() {
       </FormControl>
 
             </div>
-        <div ref={componentRef} className='recieptDetails'>
+        {/* <div ref={componentRef} className='recieptDetails'>
        <Typography style={{marginLeft:'10px'}} variant='h6'>Purpose Of Payment</Typography>
        <Typography variant='h6'>Amount</Typography>
        {
@@ -160,8 +176,79 @@ export default function Fees() {
        <Typography style={{marginLeft:'10px'}} variant='body1'>Payment Status</Typography>
        <Typography variant='body1'>{myFees.length>0?'Paid':'Not Paid!!'}</Typography>
        
+        </div> */}
+        {
+           myFees.length>0&&(
+        
+        <div ref={componentRef} className="page-break"  id="container">
+        <center> <div className="header">
+             <img src={Logo} style={{textAlign:'center'}}/><br></br>
+             <span className="school-name">NOBLE INTELLECT ACADEMY</span><br></br>
+            
+           
+            <span>No. 24 kofare zone 3,, Jimeta Yola North, Adamawa State</span><br></br>
+            <span>Motto: Learning For Better Future.</span>
+            <h4>STUDENT RECIEPT</h4>
+        </div> </center>
+        <div className="information-container">
+            <div>
+                <span className="content-title">NAME: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?myFees[0].studentName:'Not Paid'}</span><br></br>
+                <span className="content-title">STUDENT ID: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?myFees[0].studentId:'Not Paid'} </span><br></br>
+            </div>
+            <div>
+                <span className="content-title">CLASS: &nbsp;</span> <span className="content-title-post">{myFees.length>0?myFees[0].className:'Not Paid!!'}</span><br></br>
+                <span className="content-title">TELLER_NO: &nbsp;</span> <span className="content-title-post">{myFees.length>0?myFees[0].teller:'Not Paid!!'}</span><br></br>
+            </div>
+            <div>
+                <span className="content-title">SESSION:</span> <span className="content-title-post">{currentSession}</span><br></br>
+                <span className="content-title">TERM:</span> <span className="content-title-post">{myFees.length>0?myFees[0].term:''}</span><br></br>
+            </div>
+
         </div>
-        <Button onClick={handlePrint} style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Reciept</Button>
+        <div>
+            <table className="table11">
+                <thead>
+                <th>PURPOSE OF PAYMENT</th>
+                <th>AMOUNT IN FIGURES</th>
+                   
+                </thead>
+                <tbody>
+                {
+        myFees.length>0&&(
+          myFees[0].purposeOfPayment.map((dat,ind)=>(
+<tr key={ind}>
+           
+            <td className="subject">{dat.purposeOfPayment}</td>
+            <td className="subject">{`${'N'+dat.amountOfPayment}`}</td>
+</tr>
+            
+        )))
+    }
+<tr>
+           
+           <td className="subject"><b>TOTAL</b></td>
+           <td className="subject"><b>N{total}</b></td>
+</tr>           
+                    
+                     </tbody>
+            </table>
+           
+        </div>
+       <div className="teacher-sign-container">
+        <center><span className="teacher-sign">Principal/Admin Signature</span></center>
+    </div>
+    </div>
+    )
+      }
+      {
+        myFees.length==0&&(
+          <Typography style={{marginLeft:'10px'}} variant='button'>Select Term To View Your Reciept or Not Yet Paid</Typography>
+        )
+      }
+     {
+     loading?<CircularProgress style={{marginLeft:'40%'}} color='primary' />:null
+   }
+      <Button onClick={handlePrint} style={{width:'30%',marginLeft:'20px',marginTop:'10px'}} variant='outlined' color='primary'>Print Reciept</Button>
         </StyledMain>
     )
 }
