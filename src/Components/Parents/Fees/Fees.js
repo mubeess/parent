@@ -82,14 +82,14 @@ export default function Fees() {
         <Select
           disabled
           native
-          value={appProps.user.user.currentClass}
+          value={JSON.parse(localStorage.getItem('user')).user.currentClass}
           label="Present Class"
           inputProps={{
             name:'gender',
             id: 'outlined-age-native-simple',
           }}
         >
-          <option value={appProps.user.user.currentClass}>{appProps.user.user.currentClass}</option>
+          <option value={JSON.parse(localStorage.getItem('user')).user.currentClass}>{JSON.parse(localStorage.getItem('user')).user.currentClass}</option>
         </Select>
       </FormControl>
 
@@ -104,7 +104,7 @@ export default function Fees() {
           return null
            }else{
             setLoadig(true)
-             fetch(`https://polar-brook-59807.herokuapp.com/student/get-single-student-payment/?term=${e.target.value}&username=${appProps.user.user.username}`)
+             fetch(`https://polar-brook-59807.herokuapp.com/student/get-single-student-payment/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}`)
              .then(res=>{
                res.json()
                .then(data=>{

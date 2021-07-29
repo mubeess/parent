@@ -35,8 +35,8 @@ export default function MainProfile() {
     const [oldPassword,setOldPassword]=useState('')
     const [newPassword,setNewPassword]=useState('')
     const [confirmPassword,setConfirmPassword]=useState('')
-    const appProps=useContext(AppContext)
     const [imageUrl,setImageUrl]=useState('')
+    const appProps=useContext(AppContext)
 
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
@@ -51,7 +51,7 @@ export default function MainProfile() {
     
     })
   useEffect(()=>{
-    const myImage = appProps.user.user.image.split('/')
+    const myImage = JSON.parse(localStorage.getItem('user')).user.image.split('/')
     const myRealImage=myImage.splice(1,2).join('/')
     let appImage=`https://polar-brook-59807.herokuapp.com/${myRealImage}`;
     setImageUrl(appImage)
@@ -66,7 +66,7 @@ export default function MainProfile() {
              <div style={{marginTop:'30px'}} ref={componentRef} id="container-fluid">
         {/* <img className="profile-pic" src='https://polar-brook-59807.herokuapp.com/public/images/musty-avatar.jpg' /> */}
        <div className='profile-pic'>
-       <Avatar style={{width:'100%',height:'100%'}} alt={appProps.user.user.firstName} src={imageUrl} />   
+       <Avatar style={{width:'100%',height:'100%'}} alt={JSON.parse(localStorage.getItem('user')).user.firstName} src={imageUrl} />   
         </div>     
         <div className="cover-page-section">
             <div className="btn-container">
@@ -77,7 +77,7 @@ export default function MainProfile() {
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');}
             }}
-    action={`https://polar-brook-59807.herokuapp.com/student/set-profile-pic/?id=${appProps.user.user._id}`}
+    action={`https://polar-brook-59807.herokuapp.com/student/set-profile-pic/?id=${JSON.parse(localStorage.getItem('user')).user._id}`}
     name='profile_pic'
     method='PUT'
    
@@ -112,15 +112,15 @@ export default function MainProfile() {
          <table className="profile-detail">
              <tr>
                  <td>STUDENT ID:</td>
-                 <td>{appProps.user.user.username ||'None Set'}</td>
+                 <td>{JSON.parse(localStorage.getItem('user')).user.username ||'None Set'}</td>
              </tr>
              <tr>
                 <td>FULL NAME:</td>
-                <td>{`${appProps.user.user.firstName+' '+appProps.user.user.lastName ||'None Set'}`}</td>
+                <td>{`${JSON.parse(localStorage.getItem('user')).user.firstName+' '+JSON.parse(localStorage.getItem('user')).user.lastName ||'None Set'}`}</td>
             </tr>
             <tr>
                 <td>STATE</td>
-                <td>{appProps.user.user.state || 'None set'}</td>
+                <td>{JSON.parse(localStorage.getItem('user')).user.state || 'None set'}</td>
             </tr>
             <tr>
                 <td>ROLE</td>
@@ -130,16 +130,16 @@ export default function MainProfile() {
        
         </div>
         <div className="other-editable-info">
-            <input className='profileInp' type="text" value={appProps.user.user.username ||'None Set'} disabled/>
-            <input className='profileInp' type="text" value={`${appProps.user.user.firstName||''+' '+appProps.user.user.lastName  ||'None Set'}`} disabled/>
-            {/* <input className='profileInp' type="text" value={appProps.user.role.map(rl=>(`${rl+'**'}`))} disabled/> */}
-            <input className='profileInp' type="text" value={appProps.user.user.state || 'None set'} disabled/>
-            {/* <input className='profileInp' type="text" value={appProps.user.role.includes('Teacher')?'Academics':'Non Academics'} disabled/> */}
-            <input className='profileInp' type="text" value={appProps.user.user.currentClass || 'None Set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.user.gender || 'None Set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.user.address || 'None Set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.user.country.toUpperCase() || 'None set'} disabled/>
-            <input className='profileInp' type="text" value={appProps.user.user.state||'State Not Set'} disabled/>
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.username ||'None Set'} disabled/>
+            <input className='profileInp' type="text" value={`${JSON.parse(localStorage.getItem('user')).user.firstName||''+' '+JSON.parse(localStorage.getItem('user')).user.lastName  ||'None Set'}`} disabled/>
+            {/* <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).role.map(rl=>(`${rl+'**'}`))} disabled/> */}
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.state || 'None set'} disabled/>
+            {/* <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).role.includes('Teacher')?'Academics':'Non Academics'} disabled/> */}
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.currentClass || 'None Set'} disabled/>
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.gender || 'None Set'} disabled/>
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.address || 'None Set'} disabled/>
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.country.toUpperCase() || 'None set'} disabled/>
+            <input className='profileInp' type="text" value={JSON.parse(localStorage.getItem('user')).user.state||'State Not Set'} disabled/>
             
         </div>
         <div  className="change-password-section">
@@ -174,7 +174,7 @@ export default function MainProfile() {
                  oldPassword,
                  newPassword
              }
-             console.log(appProps.user)
+             console.log(JSON.parse(localStorage.getItem('user')))
              if (newPassword!==confirmPassword) {
              return   message.error('Password does not Match!!!')
              }else{
@@ -182,7 +182,7 @@ export default function MainProfile() {
                  setTimeout(() => {
                     
                  }, 3000);
-                fetch(`https://polar-brook-59807.herokuapp.com/student/change-password/${appProps.user.user._id}`,{
+                fetch(`https://polar-brook-59807.herokuapp.com/student/change-password/${JSON.parse(localStorage.getItem('user')).user._id}`,{
                     method:'POST',
                     headers:{
                       "Content-Type":'application/json'

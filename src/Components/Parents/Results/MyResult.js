@@ -200,14 +200,14 @@ export default function MyResult() {
         <Select
           disabled
           native
-          value={appProps.user.user.currentClass}
+          value={JSON.parse(localStorage.getItem('user')).user.currentClass}
           label="Present Class"
           inputProps={{
             name:'gender',
             id: 'outlined-age-native-simple',
           }}
         >
-          <option value={appProps.user.user.currentClass}>{appProps.user.user.currentClass}</option>
+          <option value={JSON.parse(localStorage.getItem('user')).user.currentClass}>{JSON.parse(localStorage.getItem('user')).user.currentClass}</option>
         </Select>
       </FormControl>
 
@@ -222,7 +222,7 @@ export default function MyResult() {
          return null
           }else{
             setLoadig(true)
-            fetch(`https://polar-brook-59807.herokuapp.com/admin/get-single-student-result/?term=${e.target.value}&username=${appProps.user.user.username}&currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+            fetch(`https://polar-brook-59807.herokuapp.com/admin/get-single-student-result/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}&currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
             .then(res=>{
               res.json()
               .then(data=>{
@@ -369,7 +369,7 @@ export default function MyResult() {
             </div> </center>
             <div className="information-container">
                 <div>
-                    <span className="content-title">NAME:</span> <span  className="content-title-post">{`${appProps.user.user.firstName+' '+appProps.user.user.lastName}`}</span><br></br>
+                    <span className="content-title">NAME:</span> <span  className="content-title-post">{`${JSON.parse(localStorage.getItem('user')).user.firstName+' '+JSON.parse(localStorage.getItem('user')).user.lastName}`}</span><br></br>
                     <span className="content-title">STUDENT ID:</span><span className="content-title-post">{myResult.length>0?myResult[0].username:'0'}</span><br></br>
                     <span className="content-title">CLASS:</span><span className="content-title-post">{myResult.length>0?myResult[0].class:'0'}</span><br></br>
                     <span className="content-title">CLASS SIZE:</span><span className="content-title-post">{myResult.length>0?myResult[3]:'0'}</span><br></br>

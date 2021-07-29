@@ -61,7 +61,7 @@ export default function MySubject() {
   const [allSub,setAll]=useState([])
   const appProps=useContext(AppContext)
   useEffect(() => {
-    fetch(`https://polar-brook-59807.herokuapp.com/admin/get-class-curriculum/?currentClass=${appProps.user.user.currentClass}&category=${appProps.user.user.category}`)
+    fetch(`https://polar-brook-59807.herokuapp.com/admin/get-class-curriculum/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
     .then(res=>{
       res.json()
       .then(data=>{
@@ -105,7 +105,7 @@ export default function MySubject() {
                 </StyledTableCell>
                
                 <StyledTableCell component="th" scope="row">
-                {appProps.user.user.currentClass}
+                {JSON.parse(localStorage.getItem('user')).user.currentClass}
                 </StyledTableCell>
             </StyledTableRow>
               ))
