@@ -91,6 +91,7 @@ const theme = createMuiTheme({
         }}>Profile</MenuItem>
         <MenuItem onClick={()=>{
        window.location='/'
+       localStorage.removeItem("user");
         }}>Logout</MenuItem>
       </Menu>
 
