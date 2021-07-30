@@ -45,6 +45,24 @@ const StyledMain=styled.div`
 
 `;
 
+const termer = (term) => {
+
+  switch (term) {
+      case '1':
+          return "First Term" 
+     case '2':
+          return "Second Term" 
+    case '3':
+          return "Third Term" 
+
+     
+  
+      default:
+          return "None"
+      
+  }
+}
+
 export default function Fees() {
   const appProps=useContext(AppContext)
   const componentRef=useRef()
@@ -192,16 +210,16 @@ export default function Fees() {
         </div> </center>
         <div className="information-container">
             <div>
-                <span className="content-title">NAME: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?myFees[0].studentName:'Not Paid'}</span><br></br>
-                <span className="content-title">STUDENT ID: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?myFees[0].studentId:'Not Paid'} </span><br></br>
+                <span className="content-title">NAME: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?`${JSON.parse(localStorage.getItem('user')).user.firstName+' '+JSON.parse(localStorage.getItem('user')).user.lastName}`:'Not Paid'}</span><br></br>
+                <span className="content-title">STUDENT ID: &nbsp;</span> <span  className="content-title-post">{myFees.length>0?JSON.parse(localStorage.getItem('user')).user.username:'Not Paid'} </span><br></br>
             </div>
             <div>
-                <span className="content-title">CLASS: &nbsp;</span> <span className="content-title-post">{myFees.length>0?myFees[0].className:'Not Paid!!'}</span><br></br>
+                <span className="content-title">CLASS: &nbsp;</span> <span className="content-title-post">{myFees.length>0?JSON.parse(localStorage.getItem('user')).user.currentClass:'Not Paid!!'}</span><br></br>
                 <span className="content-title">TELLER_NO: &nbsp;</span> <span className="content-title-post">{myFees.length>0?myFees[0].teller:'Not Paid!!'}</span><br></br>
             </div>
             <div>
                 <span className="content-title">SESSION:</span> <span className="content-title-post">{currentSession}</span><br></br>
-                <span className="content-title">TERM:</span> <span className="content-title-post">{myFees.length>0?myFees[0].term:''}</span><br></br>
+                <span className="content-title">TERM:</span> <span className="content-title-post">{myFees.length>0?termer(term):''}</span><br></br>
             </div>
 
         </div>
