@@ -67,10 +67,16 @@ export default function Assignment() {
               allAss.length>0&&(
                 allAss.map((ass,ind)=>{
                   const newPdf=ass.file.split('/').splice(1).join('/')
+                  const maiAss=ass.file.split(':').map(arr=>{
+                    if (arr=='http') {
+                      return arr+'s'
+                    }
+                    return arr
+                  }).join(':')
                   const myPdf='http://srms-demoo.herokuapp.com/'+newPdf
                   return(
                     <div key={ind} className='assList'>
-                      {console.log(myPdf)}
+                     
                   <QuestionAnswerOutlined style={{color:'black',marginLeft:'5px'}}></QuestionAnswerOutlined>
                   <Typography  variant='button' style={{color:'black'}}>{ass.subject||'Mathematics'}</Typography>
                   <Typography variant='body1' style={{color:'black',marginLeft:'50px'}}>Title:{ass.head}</Typography>
@@ -79,7 +85,7 @@ export default function Assignment() {
                   <Typography variant='body1' style={{color:'black'}}>Posted On:{ass.date||'none'}</Typography>
 
 
-                  <a download={`Assignment${ind+1}`}  href={ass.file}>
+                  <a download={`Assignment${ind+1}`}  href={maiAss}>
                   <Button
           
                type='submit'
