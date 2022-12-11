@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.16.3",
     "axios": "^0.21.1",
+    "dotenv": "^16.0.3",
     "file-saver": "^2.0.5",
     "js-file-download": "^0.4.12",
     "naija-state-local-government": "^1.1.2",

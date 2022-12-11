@@ -222,7 +222,7 @@ export default function MyResult() {
          return null
           }else{
             setLoadig(true)
-            fetch(`https://polar-brook-59807.herokuapp.com/admin/get-single-student-result/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}&currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
+            fetch(process.env.REACT_APP_BASE_URL+`admin/get-single-student-result/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}&currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
             .then(res=>{
               res.json()
               .then(data=>{

@@ -53,7 +53,7 @@ export default function MainProfile() {
   useEffect(()=>{
     const myImage = JSON.parse(localStorage.getItem('user')).user.image.split('/')
     const myRealImage=myImage.splice(1,2).join('/')
-    let appImage=`https://polar-brook-59807.herokuapp.com/${myRealImage}`;
+    let appImage=process.env.REACT_APP_BASE_URL+`${myRealImage}`;
     setImageUrl(appImage)
     console.log(myImage)
 
@@ -64,7 +64,7 @@ export default function MainProfile() {
     
     return (
              <div style={{marginTop:'30px'}} ref={componentRef} id="container-fluid">
-        {/* <img className="profile-pic" src='https://polar-brook-59807.herokuapp.com/public/images/musty-avatar.jpg' /> */}
+        {/* <img className="profile-pic" src=process.env.REACT_APP_BASE_URL+'public/images/musty-avatar.jpg' /> */}
        <div className='profile-pic'>
        <Avatar style={{width:'100%',height:'100%'}} alt={JSON.parse(localStorage.getItem('user')).user.firstName} src={imageUrl} />   
         </div>     
@@ -77,7 +77,7 @@ export default function MainProfile() {
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');}
             }}
-    action={`https://polar-brook-59807.herokuapp.com/student/set-profile-pic/?id=${JSON.parse(localStorage.getItem('user')).user._id}`}
+    action={process.env.REACT_APP_BASE_URL+`student/set-profile-pic/?id=${JSON.parse(localStorage.getItem('user')).user._id}`}
     name='profile_pic'
     method='PUT'
    
@@ -91,7 +91,7 @@ export default function MainProfile() {
         message.success(`${info.file.name} file uploaded successfully`);
         const myImage = info.file.response.message.split('/')
         const myRealImage=myImage.splice(1,2).join('/')
-       const  newAppImage=`https://polar-brook-59807.herokuapp.com/${myRealImage}`;
+       const  newAppImage=process.env.REACT_APP_BASE_URL+`${myRealImage}`;
         setImageUrl(newAppImage)
         console.log(newAppImage,',,,,,,,,,,,,',info.file.response)
         // setId(idd)
@@ -182,7 +182,7 @@ export default function MainProfile() {
                  setTimeout(() => {
                     
                  }, 3000);
-                fetch(`https://polar-brook-59807.herokuapp.com/student/change-password/${JSON.parse(localStorage.getItem('user')).user._id}`,{
+                fetch(process.env.REACT_APP_BASE_URL+`student/change-password/${JSON.parse(localStorage.getItem('user')).user._id}`,{
                     method:'POST',
                     headers:{
                       "Content-Type":'application/json'

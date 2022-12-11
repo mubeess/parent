@@ -72,7 +72,7 @@ export default function Fees() {
     const [currentSession,setCurrent]=useState('')
     const [loading,setLoadig]=useState(false)
     useEffect(()=>{
-      fetch('https://polar-brook-59807.herokuapp.com/admin/get-current-term').
+      fetch(process.env.REACT_APP_BASE_URL + 'admin/get-current-term').
       then(res=>{
         res.json()
         .then(data=>{
@@ -122,7 +122,7 @@ export default function Fees() {
           return null
            }else{
             setLoadig(true)
-             fetch(`https://polar-brook-59807.herokuapp.com/student/get-single-student-payment/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}`)
+             fetch(process.env.REACT_APP_BASE_URL + `student/get-single-student-payment/?term=${e.target.value}&username=${JSON.parse(localStorage.getItem('user')).user.username}`)
              .then(res=>{
                res.json()
                .then(data=>{

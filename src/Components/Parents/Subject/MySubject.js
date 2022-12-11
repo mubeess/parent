@@ -61,7 +61,7 @@ export default function MySubject() {
   const [allSub,setAll]=useState([])
   const appProps=useContext(AppContext)
   useEffect(() => {
-    fetch(`https://polar-brook-59807.herokuapp.com/admin/get-class-curriculum/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
+    fetch(process.env.REACT_APP_BASE_URL+`admin/get-class-curriculum/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
     .then(res=>{
       res.json()
       .then(data=>{

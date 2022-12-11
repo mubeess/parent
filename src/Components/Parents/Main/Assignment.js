@@ -47,7 +47,7 @@ export default function Assignment() {
   const appProps=useContext(AppContext)
   const [allAss,setAll]=useState([])
   useEffect(() => {
-  fetch(`https://polar-brook-59807.herokuapp.com/student/get-all-student-assignment/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
+  fetch(process.env.REACT_APP_BASE_URL+`student/get-all-student-assignment/?currentClass=${JSON.parse(localStorage.getItem('user')).user.currentClass}&category=${JSON.parse(localStorage.getItem('user')).user.category}`)
   .then(res=>{
     res.json()
     .then(data=>{
